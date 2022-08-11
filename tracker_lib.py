@@ -43,7 +43,7 @@ class Yolov5DeepSortTracker:
             self.init(input_source, output_callback)
 
     def init(self, input_source, output_callback):
-        yolo_model = 'yolov5m.pt'
+        yolo_model = 'weights/cone.pt'
         deep_sort_model = 'osnet_x0_25'
         device_id = ''
         self.augment = True

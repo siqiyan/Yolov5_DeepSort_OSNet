@@ -14,15 +14,13 @@ class MsgCone:
         self.ts = 0.0
 
     def to_bytes(self):
-        return bytes(
-            ','.join(str(x) for x in [
-                self.latitude,
-                self.longitude,
-                self.confidence,
-                self.ts
-            ]),
-            'ascii'
+        s = '{:.6f},{:.6f},{:.6f},{}'.format(
+            self.latitude,
+            self.longitude,
+            self.confidence,
+            self.ts
         )
+        return bytes(s, 'ascii')
 
 class RTSP_URL:
     def __init__(self, ip, user, psw, channel='102'):
@@ -61,7 +59,8 @@ class WorkzoneServer:
         self.args = args
         self.rsu_ip = [
             # '142.244.14.101' # 0
-            '192.168.10.1',
+            # '192.168.10.1',
+            '192.168.253.10',
         ]
         self.rsu_port = 4321
         self.init_rsu()
@@ -87,6 +86,9 @@ class WorkzoneServer:
             else:
                 raise ValueError('Cannot determine proper video mode')
 
+        self.packet_count = 0
+        self.max_packet_count = 128
+
         self.tracker = Yolov5DeepSortTracker(
             streams_txt,
             self.proc_tracker_output
@@ -106,7 +108,9 @@ class WorkzoneServer:
 
     def proc_tracker_output(self, outputs):
         # Process each input source
-        ts = time.time()
+        # ts = time.time()
+        ts = self.packet_count
+        self.packet_count = (self.packet_count + 1) % self.max_packet_count
         for i in range(len(outputs)):
             if len(outputs[i]) > 0:
                 # Process each detection
