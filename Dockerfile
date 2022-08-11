@@ -120,6 +120,7 @@ RUN cd /deps/torchvision && \
 ENV CMAKE_ARGS="-DWITH_GSTREAMER=ON -DWITH_GTK=ON"
 RUN git clone --recursive https://github.com/skvark/opencv-python.git /deps/opencv-python
 RUN cd /deps/opencv-python && \
+    git checkout b45a6a9f43d29acdea4b4a4e88078fb1923f417b && \
     pip install --upgrade pip wheel && \
     pip wheel . --verbose && \
     pip install opencv_python*.whl

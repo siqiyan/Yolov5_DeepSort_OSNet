@@ -1,1 +1,4 @@
 .vscode/
+tags
+__pycache__/
+data/
