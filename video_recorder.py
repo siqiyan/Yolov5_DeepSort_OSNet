@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from rtsp_url import RTSP_URL
+import cv2
 import argparse
 import time
 
