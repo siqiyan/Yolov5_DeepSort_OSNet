@@ -15,7 +15,7 @@ class MsgCone:
         self.ts = 0.0
 
     def to_bytes(self):
-        s = '{:.6f},{:.6f},{:.6f},{}'.format(
+        s = '{:.8f},{:.8f},{:.5f},{}'.format(
             self.latitude,
             self.longitude,
             self.confidence,
@@ -91,6 +91,9 @@ class WorkzoneServer:
                     msg.confidence = output[6]
                     msg.ts = ts
                     self.rsu_socket[i].send(msg.to_bytes())
+                    print('cone {}, lat: {}, lon: {}'.format(
+                        j, lat, lon
+                    ))
                     recv_buf = self.rsu_socket[i].recv(MAXRECVLEN)
                     # msg = recv_buf.decode('utf-8')
                     # print('Received msg: {}'.format(msg))
